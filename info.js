@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { stripIndents } = require("common-tags");
 
 module.exports = {
 	name: 'info',
@@ -15,11 +16,10 @@ module.exports = {
 
 	let hEmbed = new Discord.RichEmbed()
 	.setTitle("Server Info")
-	.addField("Server Name:", `${message.guild.name}`)
-	.addField("Owned By:", `${message.guild.owner}`)
-	.addField("Member Count:", `${message.guild.memberCount}`)
-	.addField("Created:", `${message.channel.guild.createdAt.toUTCString().substr(0, 16)} (${checkDays(message.channel.guild.createdAt)})`, true)
-	.setThumbnail(message.guild.iconURL);
+	.setThumbnail(message.guild.iconURL)
+	.setDescription(stripIndents`**Server Name:** ${message.guild.name}
+	**Owned By:** ${message.guild.owner}
+	**Member Count:** ${message.guild.memberCount}`);
 
 	message.channel.send(hEmbed);
 

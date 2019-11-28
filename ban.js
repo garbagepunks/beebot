@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const stripIndents = require("common-tags");
 
 module.exports = {
 	name: 'ban',
@@ -13,12 +14,12 @@ module.exports = {
 	if(bUser.hasPermission("BAN_MEMBERS")) return message.channel.send("That user can't be banned.");
 
 	let banEmbed = new Discord.RichEmbed()
-	.setDescription("**User Banned**")
+	.setTitle("**User Banned**")
 	.setColor("#bc0000")
-	.addField("Banned User", `${bUser}`, true)
-	.addField("Reason", bReason, true)
-	.addField("Banned By", `<@${message.author.id}>`, true)
-	.setTimestamp();
+	.setTimestamp()
+	.setDescription(stripIndents`**Banned User:** ${bUser}
+		**Reason:** ${bReason}
+		**Banned By:** ${message.author}`);
 
 	let banChannel = message.guild.channels.find(channel => channel.name === "logs");
 	if(!banChannel) return message.channel.send("Can't find channel.");

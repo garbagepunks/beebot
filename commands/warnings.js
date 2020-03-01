@@ -4,19 +4,22 @@ let warnings = JSON.parse(fs.readFileSync("./warnings.json", "utf8"));
 
 module.exports = {
 	name: 'warnings',
+  category: 'moderation',
 	description: 'Checks how many warnings a user has.',
-	usage: 'warnings [username]',
+	usage: '[username]',
+  aliases: 'warns',
 	execute(message, args) {
 
   let wUser = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
-  if(!wUser) return message.reply("Couldn't find that user.");
+  if(!args[0]) wUser = message.author;
   let warnlevel = warnings[wUser.id].warnings;
 
   if(!warnings[wUser.id]) warnings[wUser.id] = {
     warnings: 0
   };
+    
 
-  message.channel.send(`${wUser.username} has ${warnlevel} warnings.`);
-
+  message.channel.send(`${wUser} has ${warnlevel} warning(s).`);
 }
 }
+
